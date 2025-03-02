@@ -95,7 +95,33 @@ class Library {
             console.log("Sorry, the book is unavailable.");
         }
     }
+    returnBook(borrowerId, isbn) {
+        // Find the book in the library by ISBN
+        const book = this.books.find(b => b.isbn === isbn);
+
+        if (book) {
+            // Find the borrower in the library
+            const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+
+            if (borrower) {
+                // Check if the borrower has the book
+                const bookIndex = borrower.borrowedBooks.indexOf(book.title);
+                if (bookIndex > -1) {
+                    borrower.returnBook(book.title); // Remove book from borrowed list
+                    book.updateCopies(1); // Increase the available copies by 1
+                    console.log(`Book returned successfully by borrower ${borrower.name}`);
+                } else {
+                    console.log(`${borrower.name} has not borrowed this book.`);
+                }
+            } else {
+                console.log(`Borrower with ID ${borrowerId} not found.`);
+            }
+        } else {
+            console.log("The book with the specified ISBN is not found.");
+        }
+    }
 }
+
 //Test Case 1
 const library = new Library();
 const book2 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
@@ -105,4 +131,12 @@ library.listBooks();
 //Task 4 
 library.lendBook(201, 123456);
 console.log(book1.getDetails());
+console.log(borrower1.borrowedBooks);
+library.addBorrower(borrower1);
+//Task 5 
+
+library.returnBook(201, 123456);  //Returns the book
+//Log the book details 
+console.log(book1.getDetails());  
+//Log the borrower's borrowed books after return
 console.log(borrower1.borrowedBooks);
