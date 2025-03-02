@@ -75,6 +75,26 @@ class Library {
             });
         }
     }
+    addBorrower(borrower) {
+        this.borrowers.push(borrower);
+    }
+    lendBook(borrowerId, isbn) {
+        //Find the book in the library by ISBN
+        const book = this.books.find(b => b.isbn === isbn);
+        if (book && book.copies > 0) {
+            //Find the borrower in the library
+            const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+            if (borrower) {
+                borrower.borrowBook(book.title);  //Add book to list
+                book.updateCopies(-1);  //Decrease available copies 
+                console.log(`Book lent successfully to borrower ${borrower.name}`);
+            } else {
+                console.log(`Borrower with ID ${borrowerId} not found.`);
+            }
+        } else {
+            console.log("Sorry, the book is unavailable.");
+        }
+    }
 }
 //Test Case 1
 const library = new Library();
@@ -82,3 +102,7 @@ const book2 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
 library.addBook(book2);
 library.listBooks();
 
+//Task 4 
+library.lendBook(201, 123456);
+console.log(book1.getDetails());
+console.log(borrower1.borrowedBooks);
