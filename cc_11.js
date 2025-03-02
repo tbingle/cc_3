@@ -53,3 +53,32 @@ console.log(borrower1.borrowedBooks);
 borrower1.returnBook("The Great Gatsby");
 console.log(borrower1.borrowedBooks);
 
+//Task 3
+
+class Library {
+    //Initialize books and borrowers arrays
+    constructor() {
+        this.books = [];
+        this.borrowers = [];
+    }
+    //Add a new book to the library
+    addBook(book) {
+        this.books.push(book);
+    }
+    //List all books in the library
+    listBooks() {
+        if (this.books.length === 0) {
+            console.log("No books available in the library.");
+        } else {
+            this.books.forEach(book => {
+                console.log(book.getDetails());
+            });
+        }
+    }
+}
+//Test Case 1
+const library = new Library();
+const book2 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
+library.addBook(book2);
+library.listBooks();
+
